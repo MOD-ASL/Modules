@@ -21,29 +21,21 @@ pause(1);
 m1.magnetControl('bottom', 'on')
 %% Create a drive1 object and do some driving!
 d = Drive1(m1);
-%%
-m1.goToAngle('tilt', 0, 1);
-pause(1);
+%% demo
 % drive
-d.drive(60, 'forward', 5);
-d.turn(90, 1);
-pause(0.5);
-d.drive(60, 'forward', 5);
-% Grab an object and lift it:
-m1.magnetControl('top', 'on');
-m1.goToAngle('tilt', -30, 1);
-pause(1.1);
-%
-% drive back
-d.drive(60, 'backward', 5);
-pause(1);
-d.turn(-90, 2);
-pause(0.5);
-d.turn(-90, 2);
-pause(0.5);
-d.drive(60, 'forward', 5);
-pause(1);
-m1.goToAngle('tilt', 0, 1);
-pause(1);
-m1.magnetControl('top', 'off');
+
+for i=1:2
+    m1.setDofVelocity('left',30);
+    pause(0.01);
+    m1.moveDofVelocity('left');
+    pause(5);
+    m1.stopDofVelocity('left');
+    pause(0.01);
+    m1.setDofVelocity('left',60);
+    pause(0.01);
+    m1.moveDofVelocity('left');
+    pause(5);
+    m1.stopDofVelocity('left');
+    pause(0.01);
+end
 

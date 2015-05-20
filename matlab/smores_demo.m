@@ -5,7 +5,7 @@
 % Pass in the device name of the module as an argument.
 % On OSX, this is usually /dev/tty.usbmodem1411. On Linux, this is usually
 % /dev/ttyACMO. 
-m1 = Smores('/dev/ttyACM0');
+m1 = Smores('com17');
 %% Query the module for its state
 % The degrees of freedom are named 'left', 'right', 'pan', and 'tilt.'
 leftStateStuct = m1.getDofState('left');

@@ -151,6 +151,27 @@ classdef Smores
             D.speed = 0;
             obj.UsbCom.send_usb_torque(D);
         end
+        
+        function moveDofTorque(obj, dof_name, direction, speed)
+        % moveDofTime: Moves the specified dof in direction at speed 
+        % (0-100, pwm percentage) for duration (seconds)
+            assert(obj.dof_name_map(dof_name)~=23, 'Not Allowed for Pan');
+            assert(obj.dof_name_map(dof_name)~=24, 'Not Allowed for Tilt');
+            D.DoF = obj.dof_name_map(dof_name);
+            D.speed = speed;
+            D.direction = obj.dir_name_map(direction);
+            obj.UsbCom.send_usb_torque(D);
+        end       
+        
+        function stopDofTorque(obj, dof_name, direction)
+        % moveDofTime: Moves the specified dof in direction at speed 
+        % (0-100, pwm percentage) for duration (seconds)
+            D.DoF = obj.dof_name_map(dof_name);
+            D.speed = 0;
+            D.direction = obj.dir_name_map(direction);
+            obj.UsbCom.send_usb_torque(D);
+        end 
+        
         %
         function stopAllMotors(obj)
         % stopAllMotors: Stops all motors immediatedly
