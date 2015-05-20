@@ -21,8 +21,8 @@ classdef Smores
             % Smores(com): Constructor for Smores object.  com is string
             % specifying serial object for a Smores muscle module.  On
             % Linux, this is usually '/dev/ttyACM0' or '/dev/ttyACM1'.
-            addpath ../mat_common/user_lib/src/
-            addpath ../mat_common/user_lib/mex/
+            addpath ../mat_common/src/
+            addpath ../mat_common/mex/
             addpath TrajectoryGenerator_3rd_5th_
             %obj.UsbCom = usb_com('com', '/dev/ttyACM0');
             obj.UsbCom = usb_com('com', com);
@@ -67,15 +67,17 @@ classdef Smores
             obj.UsbCom.init_wheel(obj.dof_name_map(dof_name));
         end
         %
-%         function goToAngle(obj, dof_name, angleDegrees, duration)
-%            % goToAngle(dof_name, angleDegrees): Sends specified dof from
-%            % current position to specified angle (in degrees). 
-%            startPosition = obj.getDofState(dof_name);
-%            startPosition = double(startPosition.current_position);
-%            %duration = abs(mod(startPosition-angleDegrees+180,360))/speed;
-%            obj.moveDofPosition(dof_name, startPosition, angleDegrees,...
-%                                 0, 0, 0, 0, duration);
-%         end
+         function goToAngle(obj, dof_name, angleDegrees, duration)
+            % goToAngle(dof_name, angleDegrees): Sends specified dof from
+            % current position to specified angle (in degrees).
+            pause(0.01);
+            startPosition = obj.getDofState(dof_name)
+            pause(0.01);
+            startPosition = double(startPosition.current_position);
+            %duration = abs(mod(startPosition-angleDegrees+180,360))/speed;
+            obj.moveDofPosition(dof_name, startPosition, angleDegrees,...
+                                 0, 0, 0, 0, duration);
+         end
         function moveDofPosition(obj, dof_name, startPosition, endPosition, startVelocity, endVelocity, startAcc, endAcc, duration)
             % Sends a polynomial trajectory to module, moving specified DoF
             % with specified starting/ending positions, velocities, and
@@ -152,11 +154,8 @@ classdef Smores
         %
         function stopAllMotors(obj)
         % stopAllMotors: Stops all motors immediatedly
-            for dof = obj.dof_ids
-                D.direction = 0;
-                D.DoF = dof;
-                D.speed = 0;
-                obj.UsbCom.send_usb_dof(D);
+            for dof = {'left', 'right', 'pan', 'tilt'}
+                obj.stopDofVelocity(dof)
             end 
         end
     end

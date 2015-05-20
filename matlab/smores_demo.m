@@ -5,10 +5,10 @@
 % Pass in the device name of the module as an argument.
 % On OSX, this is usually /dev/tty.usbmodem1411. On Linux, this is usually
 % /dev/ttyACMO. 
-m1 = Smores('/dev/tty.usbmodem1411');
+m1 = Smores('/dev/ttyACM0');
 %% Query the module for its state
 % The degrees of freedom are named 'left', 'right', 'pan', and 'tilt.'
-leftStateStuct = m1.getDofState('left')
+leftStateStuct = m1.getDofState('left');
 %% initDof:
 % Use initDof to send the specified DoF to the zero position.  Also, when the
 % module is turned on, it automatically does this for all dof.
